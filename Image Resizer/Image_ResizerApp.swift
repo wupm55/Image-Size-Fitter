@@ -2,7 +2,7 @@
 //  Image_ResizerApp.swift
 //  Image Resizer
 //
-//  Created by 126 on 10/29/25.
+//  Created by wupm on 10/28/25.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct Image_ResizerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ImageCompressorView()
         }
     }
 }
