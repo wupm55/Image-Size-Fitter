@@ -22,7 +22,22 @@ struct ImageCompressorView: View {
     @State private var useTargetSize = false
     @State private var targetSizeKB: Double = 500
     
+    // 屏幕方向状态
+    @State private var isLandscape = false
+    
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
+    // 判断是否为iPad
+    private var isIPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    // 判断是否为iPad横屏
+    private var isIPadLandscape: Bool {
+        isIPad && isLandscape
+    }
     
     var body: some View {
         NavigationView {
@@ -37,34 +52,16 @@ struct ImageCompressorView: View {
                 )
                 .ignoresSafeArea()
                 
-                ScrollView {
-                    VStack(spacing: 16) {
-                        // 图像选择区域
-                        imageSelectionSection
-                        
-                        // 参数设置区域
-                        if selectedImage != nil {
-                            parameterSection
-                            
-                            // 压缩按钮
-                            compressButton
-                            
-                            // 结果显示
-                            if let result = compressionResult {
-                                resultSection(result: result)
-                            }
-                            
-                            // 压缩后的图像
-                            if let compressed = compressedImage {
-                                compressedImageSection(image: compressed)
-                            }
-                        }
-                    }
-                    .padding()
+                if isIPadLandscape {
+                    // iPad横屏：三列横向排列
+                    iPadLandscapeLayout
+                } else {
+                    // iPhone布局 & iPad竖屏：垂直滚动
+                    iPhoneLayout
                 }
             }
             .navigationTitle(localizedString("app.title"))
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     languageSwitchButton
@@ -90,6 +87,26 @@ struct ImageCompressorView: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
+        .onAppear {
+            updateOrientation()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+            updateOrientation()
+        }
+    }
+    
+    // 更新屏幕方向
+    private func updateOrientation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                let width = window.bounds.width
+                let height = window.bounds.height
+                self.isLandscape = width > height
+                print("屏幕方向更新: 宽度=\(width), 高度=\(height), 横屏=\(self.isLandscape)")
+            }
+        }
     }
     
     // MARK: - 语言切换按钮
@@ -108,6 +125,334 @@ struct ImageCompressorView: View {
             .background(Color.blue.opacity(0.1))
             .cornerRadius(8)
         }
+    }
+    
+    // MARK: - iPhone布局（垂直滚动）
+    private var iPhoneLayout: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                // 图像选择区域
+                imageSelectionSection
+                
+                // 参数设置区域
+                if selectedImage != nil {
+                    parameterSection
+                    
+                    // 压缩按钮
+                    compressButton
+                    
+                    // 结果显示
+                    if let result = compressionResult {
+                        resultSection(result: result)
+                    }
+                    
+                    // 压缩后的图像
+                    if let compressed = compressedImage {
+                        compressedImageSection(image: compressed)
+                    }
+                }
+            }
+            .padding()
+        }
+    }
+    
+    // MARK: - iPad横屏布局（三列横向）
+    private var iPadLandscapeLayout: some View {
+        ScrollView {
+            HStack(alignment: .top, spacing: 20) {
+                // 左列：原始图像
+                VStack(spacing: 16) {
+                    originalImageColumn
+                }
+                .frame(maxWidth: .infinity)
+                
+                // 中列：控制面板
+                VStack(spacing: 16) {
+                    controlColumn
+                }
+                .frame(maxWidth: .infinity)
+                
+                // 右列：压缩后图像
+                VStack(spacing: 16) {
+                    compressedImageColumn
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .padding()
+        }
+    }
+    
+    // MARK: - iPad左列：原始图像
+    private var originalImageColumn: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "photo.stack")
+                    .font(.title3)
+                    .foregroundColor(.blue)
+                Text(localizedString("select.image"))
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            
+            if let image = selectedImage {
+                VStack(spacing: 12) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 500)
+                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    
+                    if originalImageSize > 0 {
+                        HStack {
+                            Image(systemName: "doc.text")
+                                .foregroundColor(.secondary)
+                            Text(String(format: localizedString("original.size"), originalImageSize / 1024))
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            colorScheme == .dark ? 
+                                Color.white.opacity(0.1) : 
+                                Color.gray.opacity(0.1)
+                        )
+                        .cornerRadius(8)
+                    }
+                }
+            } else {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(
+                        LinearGradient(
+                            colors: colorScheme == .dark ?
+                                [Color.blue.opacity(0.15), Color.purple.opacity(0.15)] :
+                                [Color.blue.opacity(0.05), Color.purple.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(height: 400)
+                    .overlay(
+                        VStack(spacing: 12) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 60))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.blue, .purple],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                            Text(localizedString("tap.to.select"))
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                    )
+            }
+            
+            Button(action: {
+                showImagePicker = true
+            }) {
+                Label(localizedString("select.image"), systemImage: "photo.badge.plus")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [Color.blue, Color.blue.opacity(0.8)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                    .shadow(color: Color.blue.opacity(0.3), radius: 8, x: 0, y: 4)
+            }
+        }
+        .padding(16)
+        .background(
+            colorScheme == .dark ? 
+                Color(red: 0.18, green: 0.18, blue: 0.22) : 
+                Color.white
+        )
+        .cornerRadius(16)
+        .shadow(color: colorScheme == .dark ? Color.white.opacity(0.05) : Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
+    }
+    
+    // MARK: - iPad中列：控制面板
+    private var controlColumn: some View {
+        VStack(spacing: 16) {
+            if selectedImage != nil {
+                parameterSection
+                compressButton
+                
+                if let result = compressionResult {
+                    resultSection(result: result)
+                }
+            } else {
+                VStack(spacing: 20) {
+                    Image(systemName: "slider.horizontal.3")
+                        .font(.system(size: 60))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.blue, .purple],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                    Text(localizedString("compression.settings"))
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(40)
+                .background(
+                    colorScheme == .dark ? 
+                        Color(red: 0.18, green: 0.18, blue: 0.22) : 
+                        Color.white
+                )
+                .cornerRadius(16)
+                .shadow(color: colorScheme == .dark ? Color.white.opacity(0.05) : Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
+            }
+        }
+    }
+    
+    // MARK: - iPad右列：压缩后图像
+    private var compressedImageColumn: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "photo.badge.checkmark")
+                    .font(.title3)
+                    .foregroundColor(.purple)
+                Text(localizedString("compressed.image"))
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            
+            if let compressed = compressedImage {
+                VStack(spacing: 12) {
+                    Image(uiImage: compressed)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 500)
+                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    
+                    // 文件名编辑区域
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "pencil.circle.fill")
+                                .foregroundColor(.blue)
+                            Text(localizedString("file.name"))
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        
+                        HStack(spacing: 8) {
+                            TextField(localizedString("enter.filename"), text: $customFileName)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .font(.body)
+                            
+                            Text(".jpg")
+                                .font(.body)
+                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 6)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(6)
+                        }
+                    }
+                    .padding(12)
+                    .background(
+                        colorScheme == .dark ? 
+                            Color.white.opacity(0.08) : 
+                            Color.gray.opacity(0.05)
+                    )
+                    .cornerRadius(10)
+                    
+                    HStack(spacing: 12) {
+                        Button(action: {
+                            saveToPhotoLibrary(compressed)
+                        }) {
+                            Label(localizedString("save.to.album"), systemImage: "arrow.down.to.line.circle.fill")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.blue, Color.blue.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .shadow(color: Color.blue.opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                        
+                        Button(action: {
+                            shareImage(compressed)
+                        }) {
+                            Label(localizedString("share"), systemImage: "square.and.arrow.up.circle.fill")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.orange, Color.orange.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .shadow(color: Color.orange.opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                    }
+                }
+            } else {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(
+                        LinearGradient(
+                            colors: colorScheme == .dark ?
+                                [Color.purple.opacity(0.15), Color.blue.opacity(0.15)] :
+                                [Color.purple.opacity(0.05), Color.blue.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(height: 400)
+                    .overlay(
+                        VStack(spacing: 12) {
+                            Image(systemName: "photo.badge.arrow.down")
+                                .font(.system(size: 60))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.purple, .blue],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                            Text(localizedString("compressing"))
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                    )
+            }
+        }
+        .padding(16)
+        .background(
+            colorScheme == .dark ? 
+                Color(red: 0.18, green: 0.18, blue: 0.22) : 
+                Color.white
+        )
+        .cornerRadius(16)
+        .shadow(color: colorScheme == .dark ? Color.white.opacity(0.05) : Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
     }
     
     // MARK: - 图像选择区域
@@ -298,24 +643,24 @@ struct ImageCompressorView: View {
                     Image(systemName: "lightbulb.fill")
                         .foregroundColor(.orange.opacity(0.8))
                         .font(.caption2)
-                    Text("技术说明")
+                    Text(localizedString("技术说明"))
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundColor(.orange.opacity(0.8))
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("• JPEG压缩算法基于离散余弦变换(DCT)和量化，文件大小与图像内容复杂度密切相关")
+                    Text(localizedString("• JPEG压缩算法基于离散余弦变换(DCT)和量化，文件大小与图像内容复杂度密切相关"))
                         .font(.caption2)
                         .foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    Text("• 相同质量参数下，纹理复杂的图像比简单图像占用更多空间")
+                    Text(localizedString("• 相同质量参数下，纹理复杂的图像比简单图像占用更多空间"))
                         .font(.caption2)
                         .foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    Text("• 系统采用二分搜索算法在±10KB容差范围内寻找最优质量参数")
+                    Text(localizedString("• 系统采用二分搜索算法在±10KB容差范围内寻找最优质量参数"))
                         .font(.caption2)
                         .foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional GIF creation with precise control over quality, FPS, and width. Turn videos into lightweight, share-ready files in seconds.">
+    <title>movie to gif - Professional GIF Creator for Mac</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: #fff;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 20px 80px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero .tagline {
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #1d1d1f;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1d1d1f;
+        }
+        
+        .feature p {
+            font-size: 1.1em;
+            color: #515154;
+            line-height: 1.6;
+        }
+        
+        .benefits {
+            background: #f5f5f7;
+            padding: 80px 20px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        
+        .benefit-card p {
+            color: #515154;
+            line-height: 1.6;
+        }
+        
+        .use-cases {
+            text-align: center;
+        }
+        
+        .use-case-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .use-case-tag {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cta-button-secondary {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        footer {
+            background: #1d1d1f;
+            color: #f5f5f7;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        footer a {
+            color: #f5f5f7;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: #515154;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero .tagline {
+                font-size: 1.2em;
+            }
+            
+            .section-title {
+                font-size: 2em;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>movie to gif</h1>
+        <p class="tagline">Professional GIF creation with precision control</p>
+        <a href="https://apps.apple.com/app/your-app-id" class="cta-button">Download on the Mac App Store</a>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2 class="section-title">Turn Videos Into Perfect GIFs</h2>
+            <p style="text-align: center; font-size: 1.2em; color: #515154; max-width: 700px; margin: 0 auto;">
+                Create high-quality, lightweight GIFs with professional-grade control over quality, frame rate, and resolution. Fast, private, and optimized for sharing.
+            </p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">50-100%</span>
+                    <span class="stat-label">Quality Control</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">1-30</span>
+                    <span class="stat-label">FPS Range</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">240-1080px</span>
+                    <span class="stat-label">Resolution Options</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Precision Controls</h3>
+                    <p>Fine-tune quality, FPS, and resolution to balance clarity and file size. Real-time estimates show your output before export.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">✂️</div>
+                    <h3>Trim & Edit</h3>
+                    <p>Select exactly the segment you need with intuitive start and end time controls. No wasted frames.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">👁️</div>
+                    <h3>Live Preview</h3>
+                    <p>See your exact output before creating. What you preview is what you get—no surprises.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <h3>Smart Compression</h3>
+                    <p>JPEG-based compression delivers smaller files without sacrificing visual quality. Perfect balance of clarity and efficiency.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Generate GIFs in seconds with optimized processing. No cloud uploads, no waiting.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy First</h3>
+                    <p>All processing happens on your Mac. Your videos never leave your device.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="benefits">
+        <h2 class="section-title">Why Choose movie to gif?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>No Subscriptions</h3>
+                <p>One-time purchase. No recurring fees, no feature locks, no surprises.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Professional Results</h3>
+                <p>Clean, efficient GIFs optimized for social media, documentation, and workflows.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>File Size Control</h3>
+                <p>Live estimates and smart compression keep your GIFs under platform limits.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Native Mac App</h3>
+                <p>Built specifically for macOS with a clean, intuitive interface.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>All Formats Supported</h3>
+                <p>Works with MP4, MOV, M4V, AVI, and any video format your Mac can play.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Instant Sharing</h3>
+                <p>Built-in share sheet for Messages, Mail, social media, and Files.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section use-cases">
+            <h2 class="section-title">Perfect For</h2>
+            <div class="use-case-list">
+                <span class="use-case-tag">Social Media</span>
+                <span class="use-case-tag">Documentation</span>
+                <span class="use-case-tag">Customer Support</span>
+                <span class="use-case-tag">Product Demos</span>
+                <span class="use-case-tag">Tutorials</span>
+                <span class="use-case-tag">Memes & Reactions</span>
+                <span class="use-case-tag">Screen Recordings</span>
+                <span class="use-case-tag">Marketing</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Ready to Create Perfect GIFs?</h2>
+        <p>Download movie to gif today and start creating professional, share-ready GIFs in seconds.</p>
+        <a href="https://apps.apple.com/app/your-app-id" class="cta-button-secondary">Get It Now</a>
+    </div>
+
+    <footer>
+        <p style="margin-bottom: 15px;">
+            <a href="support.html">Support</a>
+            <a href="mailto:support@example.com">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+        <p>&copy; 2024 movie to gif. All rights reserved.</p>
+    </footer>
+</body>
+</html>
