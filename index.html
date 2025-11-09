@@ -3,66 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Image-Size-Fitter</title>
+    <meta name="description" content="Professional image compression and resizing with precise control. Reduce file sizes while maintaining quality. Fast, private, and optimized for all your needs.">
+    <title>Image-Size-Fitter - Professional Image Compression for Mac</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            max-width: 800px;
+            color: #1d1d1f;
+            background: #fff;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+        
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero .tagline {
+            font-size: 1.2em;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
-            color: #333;
+            padding: 60px 20px;
         }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
-        h2 {
-            color: #34495e;
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #1d1d1f;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1d1d1f;
+        }
+        
+        .feature p {
+            font-size: 1.1em;
+            color: #515154;
+            line-height: 1.6;
+        }
+        
+        .benefits {
+            background: #f5f5f7;
+            padding: 80px 20px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        
+        .benefit-card p {
+            color: #515154;
+            line-height: 1.6;
+        }
+        
+        .use-cases {
+            text-align: center;
+        }
+        
+        .use-case-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
             margin-top: 30px;
         }
-        .last-updated {
-            color: #7f8c8d;
-            font-style: italic;
+        
+        .use-case-tag {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
         }
-        .contact {
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 30px;
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cta-button-secondary {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: #515154;
+            margin-top: 10px;
+        }
+        
+        footer {
+            background: #1d1d1f;
+            color: #f5f5f7;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        footer a {
+            color: #f5f5f7;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero .tagline {
+                font-size: 1.2em;
+            }
+            
+            .section-title {
+                font-size: 2em;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 40px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Privacy Policy for Image-Size-Fitter</h1>
-    <p class="last-updated">Last updated: October 30, 2025</p>
-
-    <h2>Introduction</h2>
-    <p>This privacy policy describes how Image-Size-Fitter ("the App") handles your information. We are committed to protecting your privacy and being transparent about our practices.</p>
-
-    <h2>Data Collection</h2>
-    <p>Image-Size-Fitter does not collect, store, transmit, or share any personal information or user data. The App operates entirely on your device.</p>
-
-    <h2>Image Processing</h2>
-    <p>All image compression and resizing operations are performed locally on your device. Your images never leave your device and are not uploaded to any servers or third-party services.</p>
-
-    <h2>Data Storage</h2>
-    <p>The App does not store any of your images or data. All processing is done in real-time on your device, and no copies are retained by the App.</p>
-
-    <h2>Third-Party Services</h2>
-    <p>Image-Size-Fitter does not use any third-party analytics, advertising, or tracking services.</p>
-
-    <h2>Permissions</h2>
-    <p>The App may request access to your photo library solely for the purpose of allowing you to select images to compress or resize. This access is used only when you explicitly choose to select an image, and no data is collected or transmitted.</p>
-
-    <h2>Changes to This Policy</h2>
-    <p>We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated "Last updated" date.</p>
-
-    <div class="contact">
-        <h2>Contact Us</h2>
-        <p>If you have any questions about this privacy policy, please contact us at:</p>
-        <p><strong>[wupm55@126.com]</strong></p>
+    <div class="hero">
+        <h1>Image-Size-Fitter</h1>
+        <p class="tagline">Professional image compression with precision control</p>
+        <a href="https://apps.apple.com/app/6754627580" class="cta-button">Download on the Mac App Store</a>
     </div>
+
+    <div class="container">
+        <div class="section">
+            <h2 class="section-title">Compress & Resize Images Perfectly</h2>
+            <p style="text-align: center; font-size: 1.2em; color: #515154; max-width: 700px; margin: 0 auto;">
+                Reduce image file sizes while maintaining quality. Professional-grade control over compression, resolution, and format. Fast, private, and optimized for all your needs.
+            </p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">50-90%</span>
+                    <span class="stat-label">Size Reduction</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">Multiple</span>
+                    <span class="stat-label">Format Support</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Privacy Protected</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Precision Controls</h3>
+                    <p>Fine-tune compression quality and resolution to balance clarity and file size. Real-time preview shows your output before saving.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📐</div>
+                    <h3>Smart Resizing</h3>
+                    <p>Resize images to exact dimensions or by percentage. Maintain aspect ratio or set custom dimensions for any use case.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Batch Processing</h3>
+                    <p>Process multiple images at once with consistent settings. Save time on large projects with efficient batch operations.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <h3>Format Conversion</h3>
+                    <p>Convert between JPEG, PNG, HEIC, and more. Optimize for web, print, or storage with the right format for each need.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Process images in seconds with optimized algorithms. No cloud uploads, no waiting—instant results on your device.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy First</h3>
+                    <p>All processing happens locally on your Mac. Your images never leave your device—complete privacy guaranteed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="benefits">
+        <h2 class="section-title">Why Choose Image-Size-Fitter?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>No Subscriptions</h3>
+                <p>One-time purchase. No recurring fees, no feature locks, no surprises.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Professional Quality</h3>
+                <p>Advanced compression algorithms maintain image quality while dramatically reducing file sizes.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>File Size Control</h3>
+                <p>Live estimates and smart compression keep your images under size limits for any platform.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Native Mac App</h3>
+                <p>Built specifically for macOS with a clean, intuitive interface that feels right at home.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>All Formats Supported</h3>
+                <p>Works with JPEG, PNG, HEIC, TIFF, WebP, and any image format your Mac can handle.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <h3>Instant Sharing</h3>
+                <p>Built-in share sheet for Messages, Mail, social media, cloud storage, and more.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section use-cases">
+            <h2 class="section-title">Perfect For</h2>
+            <div class="use-case-list">
+                <span class="use-case-tag">Web Optimization</span>
+                <span class="use-case-tag">Social Media</span>
+                <span class="use-case-tag">Email Attachments</span>
+                <span class="use-case-tag">Photography</span>
+                <span class="use-case-tag">E-commerce</span>
+                <span class="use-case-tag">Presentations</span>
+                <span class="use-case-tag">Storage Management</span>
+                <span class="use-case-tag">Print Preparation</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Ready to Optimize Your Images?</h2>
+        <p>Download Image-Size-Fitter today and start creating perfectly sized images in seconds.</p>
+        <a href="https://apps.apple.com/app/6754627580" class="cta-button-secondary">Get It Now</a>
+    </div>
+
+    <footer>
+        <p style="margin-bottom: 15px;">
+            <a href="support.html">Support</a>
+            <a href="mailto:wupm55@126.com">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+        <p>&copy; 2025 Image-Size-Fitter. All rights reserved.</p>
+    </footer>
 </body>
 </html>
